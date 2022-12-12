@@ -1,16 +1,15 @@
-// set current day
+// Set current day
 var currentDay = moment().format('dddd, MMMM Do');
 $('#currentDay').text(currentDay);
 
 var rowHour = moment(09, 'HH');
 
-// create timeBlock rows and append them to container class
+// Create timeBlock rows and append them to container class
 while (rowHour.hour() < 18) {
   var timeBlock = `<div class="time-block">
       <div class="row">
         <div class="hour">${rowHour.format('hh A')}</div>
-        <textarea time=${rowHour.hour()} class="description">
-        </textarea>
+        <textarea time=${rowHour.hour()} class="description"></textarea>
         <div class="saveBtn"><i class="fa fa-solid fa-floppy-disk"></i></div>
       </div>`
 
@@ -19,7 +18,7 @@ while (rowHour.hour() < 18) {
   rowHour.add(1, 'hours');
 }
 
-// update UI depends on the hour
+// Update UI depends on the hour
 setInterval(function () { //  check if currentHour has changed to update the UI 
   var currentHour = moment().hour();
 
@@ -34,10 +33,10 @@ setInterval(function () { //  check if currentHour has changed to update the UI
   });
 }, 1000);
 
-//get data from localStorage
+// Get data from localStorage
 var plannerData = {};
 
-// check if localStorage has plannerData item if not, create it.
+// Check if localStorage has plannerData item if not, create it.
 if (!localStorage.getItem("plannerData")) {
   localStorage.setItem("plannerData", JSON.stringify(plannerData));
 } else { // get data from localStorage
@@ -49,7 +48,13 @@ if (!localStorage.getItem("plannerData")) {
   console.log(plannerData)
 }
 
-// save data to localStorage
+// Change the colour for the save button if the textarea has changed to remind the user to save
+$('.description').change(function (e) {
+  e.preventDefault();
+  $(this).siblings('.saveBtn').addClass('red');
+});
+
+// Save data to localStorage
 $('.saveBtn').click(function (e) {
   e.preventDefault();
   var rowTasks = $(this).siblings('.description').val();
@@ -58,6 +63,7 @@ $('.saveBtn').click(function (e) {
 
   console.log(plannerData)
   localStorage.setItem("plannerData", JSON.stringify(plannerData));
+  $(this).removeClass('red');
 });
 
 
