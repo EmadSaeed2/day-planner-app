@@ -34,7 +34,7 @@ setInterval(function () { //  check if currentHour has changed to update the UI
   });
 }, 1000);
 
-//localStorage data object
+//get data from localStorage
 var plannerData = {};
 
 // check if localStorage has plannerData item if not, create it.
@@ -45,9 +45,20 @@ if (!localStorage.getItem("plannerData")) {
   $('.description').each(function () {
     if ($(this).attr('time'))
       $(this).text(plannerData[$(this).attr('time')])
-  })
+  });
+  console.log(plannerData)
 }
 
+// save data to localStorage
+$('.saveBtn').click(function (e) {
+  e.preventDefault();
+  var rowTasks = $(this).siblings('.description').val();
+  var rowHour = $(this).siblings('.description').attr('time');
+  plannerData[rowHour] = rowTasks
+
+  console.log(plannerData)
+  localStorage.setItem("plannerData", JSON.stringify(plannerData));
+});
 
 
 
