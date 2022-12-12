@@ -19,7 +19,7 @@ while (rowHour.hour() < 18) {
   rowHour.add(1, 'hours');
 }
 
-// update the UI
+// update UI depends on the hour
 setInterval(function () { //  check if currentHour has changed to update the UI 
   var currentHour = moment().hour();
 
